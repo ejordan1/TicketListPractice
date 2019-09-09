@@ -1,20 +1,39 @@
 import React from 'react';
-import Proptype from 'proptype';
+import Proptype from 'prop-types';
+import { v4 } from 'uuid';
 
 function TicketForum(props){
+    //variables used in form
+    let _names = null;
+    let _message = null;
+  
+    //this is the submit method needs to be passed/bound in App.jsx somehow
+    function handleNewTicketSubmission(event) {
+      console.log(_names.value);
+      console.log(_message.value);
+      event.preventDefault();
+      props.onNewTicketFormSubmission({names : _names.value, message : _message.value, id: v4()});
+      _names.value = '';
+      _message.value = '';
+      
+    }
+
+
   return (
     <div>
       <p>second page</p>
-      <form>
+      <form onSubmit = {handleNewTicketSubmission}>
         
-        <Input type = "text" id = "name" placeholder = "Name" />
-        ref = {(input) => {_names = input;}} 
+        <input type = "text" id = "names" placeholder = "Name" 
+         ref = {(input) => {_names = input;}} />
+         
         {/* code looks something like this? */}
-        <Input type = "text" id = "message" placeholder = "Message" />
-        ref = {(input) => {_message = input;}} 
+        <input type = "text" id = "message" placeholder = "Message" 
+        ref = {(input) => {_message = input;}} />
+        
         {/* //code looks something like this? */}
 
-        <button onSubmit = {handleNewTicketSubmission} type="submit">Submit</button>
+        <button  type="submit">Submit</button>
       </form>
     </div>
     
@@ -23,8 +42,8 @@ function TicketForum(props){
 
 export default TicketForum;
 
-Proptype proptype = {
-  handleNewTicketSubmission = Proptype.func;
+TicketForum.Proptype = {
+  handleNewTicketSubmission : Proptype.func
 }
 
 //what object were they setting the values of?

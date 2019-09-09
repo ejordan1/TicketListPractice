@@ -1,14 +1,23 @@
+import React from 'react';
+import Proptype from 'prop-types'
 
-import Proptype from 'proptypes'
-
-function(props)
+function Questions(props)
 {
-    <button onSubmit = {changeButtonState}>Change State</button>
+    return (
+        <div>
+            <p>what is your favorite color?</p>
+            <button onClick = {props.changeButtonState}>Change State</button>
+     </div>
+    );
 }
 
-proptype = {
-    changeButtonState = Proptype.func
+       
+    
+    
+
+Questions.proptype = {
+    changeButtonState : Proptype.func
 }
 
-
+export default Questions;
 //how to get back to new ticket control?

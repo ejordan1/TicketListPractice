@@ -1,39 +1,44 @@
 // controls new ticket submission/creation
 import React from 'react';
-import { appendFileSync } from 'fs';
 import TicketForum from './TicketForum';
+import Questions from './Questions';
+import Proptype from 'prop-types';
 
-function NewTicketForm() {
-    //variables used in form
-  let _name = null;
-  let _message = null;
+class NewTicketControl extends React.Component {
 
-  //this is the submit method needs to be passed/bound in App.jsx somehow
-  function handleNewTicketFormSubmission(event) {
-    event.preventDefault();
+  constructor(props) {
+    super(props);
+    this.state = {
+      formVisible: false
+    };
+    this.changeButtonState = this.changeButtonState.bind(this)
   }
-  render () {
-    if (checkforformVisible){
-      //Display form
-      <TicketForum 
-      handleNewTicketFormSubmission = this.handleNewTicketFormSubmission
-      />
-    } else (checkforformNOTVisible) {
-      //display Questions
-      //pass in change button state method
-      <Questions  handleNewTicketFormSubmission = this.handleNewTicketFormSubmission
-      />
+
+  changeButtonState() {
+    this.setState({ formVisible: true })
+  }
+
+  render() {
+    let currentlyVisibleContent = null;
+    if (this.state.formVisible) {
+      currentlyVisibleContent =
+        <TicketForum
+         onNewTicketFormSubmission={this.props.onNewTicketFormSubmission}/>;
+    } else {
+      currentlyVisibleContent = <Questions changeButtonState={this.changeButtonState}
+      />;
     }
+    return(
+      <div>
+        {currentlyVisibleContent}
+      </div>
+    )
   }
-  return ( ); //this should return the creation of the ticket?
+
 }
 
-export default NewTicketForm;   
-// if else branching point for states between Confirmation Qs and Form
+NewTicketControl.proptype = {
+  handleNewTicketFormSubmission : Proptype.func
+}
 
-//                       Header
-//                 App 
-//               NewFormControl            Error404
-//             Form      Questions 
-// Ticket
-// TicketList
+export default NewTicketControl;   

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import SecondLink from './SecondLink';
+import NewTicketControl from './NewTicketControl';
 import HomePage from './HomePage';
 import Header from './Header';
 import Props from 'prop-types'; //hmmm?
@@ -10,25 +10,27 @@ class App extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { formVisible = false,
-      ticketList = null
+    this.state = {
+      ticketList : []
     
     }; //there's more to this, dont remember what exactly
     //method binding goes here
-    //this.handleNewTicketSubmission = handleNewTicketSubmission.bind(this) <- code looks something like this?
-  }
+    // <- code looks something like this?
+    this.handleNewTicketSubmission = this.handleNewTicketSubmission.bind(this);
+    }
 
   handleNewTicketSubmission(ticket)
   {
+    console.log("SDF" + ticket.names);
+    console.log("SDF" + ticket.message);
     var updatedTicketList = this.state.ticketList.slice(); //copies array, same as clone
     updatedTicketList.push(ticket);
-    this.setState(ticketList, updatedTicketList); //colon?
+    
+    this.setState({ticketList: updatedTicketList});
+   
   }
 
-  changeButtonState()
-  {
-    this.setState(formVisible, true)
-  }
+
 
   render() {
 
@@ -37,9 +39,9 @@ class App extends React.Component {
         <Header />
         <Switch> 
           {/* Routes need to be refactored to pass props through (eventually) */}
-          <Route exact path='/' component={HomePage} />
-          <Route exact path='/newTicketControl' render = {
-            handleNewTicketSubmission = this.handleNewTicketSubmission
+          <Route exact path='/' render={()=><HomePage ticketList={this.state.ticketList}/>} />
+          <Route exact path='/newTicket' render = {()=><NewTicketControl
+            onNewTicketFormSubmission = {this.handleNewTicketSubmission} />
           } />
         </Switch>
       </div>
